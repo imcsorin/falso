@@ -9,6 +9,21 @@ I needed a tool to mock requests in my E2E tests, but I couldn't find anything e
 that doesn't require a lot of dependencies. I'm mainly using this with Detox for React Native and
 Cypress for web.
 
+### How to download
+
+Download the latest release and make it executable:
+
+```
+curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso --output falso && chmod +x falso
+```
+
+You can also copy it to `/usr/bin` if you want to use `falso` instead of `./falso` but this requires privileges,
+you need to provide another with `--dataPath` or it won't work:
+
+```
+sudo cp falso /usr/bin
+```
+
 ### Available args
 
 - `--address` CLI will listen at this address, default is `localhost:8080`

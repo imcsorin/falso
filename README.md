@@ -18,7 +18,7 @@ curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso --outpu
 ```
 
 You can also copy it to `/usr/bin` if you want to use `falso` instead of `./falso` but this requires privileges,
-you need to provide another with `--dataPath` or it won't work:
+you need to provide another path with `--dataPath` or it won't work correctly:
 
 ```
 sudo cp falso /usr/bin

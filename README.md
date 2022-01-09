@@ -46,4 +46,4 @@ You will be able to run your tests without connecting to the remote server.
 
 ### Author
 
-Sorin C. 
+Sorin C.

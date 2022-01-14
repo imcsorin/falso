@@ -13,16 +13,19 @@ Cypress for web.
 
 Download the latest release and make it executable:
 
+#### Linux
 ```
-curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso --output falso && chmod +x falso
+curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso.linux --output falso && chmod +x falso
 ```
 
-You can also copy it to `/usr/bin` if you want to use `falso` instead of `./falso` but this requires privileges,
-you need to provide another path with `--dataPath` or it won't work correctly:
+#### MacOS
+```
+curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso.darwin --output falso && chmod +x falso
+```
 
-```
-sudo cp falso /usr/bin
-```
+#### Windows
+Binary release available at:
+`https://github.com/sorinsi/falso/releases/latest/download/falso.windows`
 
 ### Available args
 

@@ -21,15 +21,15 @@ jobs:
 
       - name: "build"
         run: |
-          - GOOS=linux GOARCH=amd64 go build -o falso.linux ./cmd/falso
-          - GOOS=darwin GOARCH=amd64 go build -o falso.darwin ./cmd/falso
-          - GOOS=windows GOARCH=amd64 go build -o falso.windows ./cmd/falso
+          GOOS=linux GOARCH=amd64 go build -o falso.linux ./cmd/falso
+          GOOS=darwin GOARCH=amd64 go build -o falso.darwin ./cmd/falso
+          GOOS=windows GOARCH=amd64 go build -o falso.windows ./cmd/falso
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            - falso.linux
-            - falso.darwin
-            - falso.windows
+            falso.linux
+            falso.darwin
+            falso.windows

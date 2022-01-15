@@ -2,6 +2,7 @@ package falso
 
 import (
 	"crypto/sha1"
+	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -44,18 +45,30 @@ type mocker struct {
 	remoteAddress string
 	mode          string
 	dataPath      string
+	overwrite     bool
 }
 
-func NewMocker(dialer Dialer, mode string, remoteAddress string, dataPath string, bufferSize uint) Mocker {
-	return &mocker{dialer: dialer, mode: mode, remoteAddress: remoteAddress, dataPath: dataPath, bufferSize: bufferSize}
+func NewMocker(
+	dialer Dialer,
+	mode string,
+	remoteAddress string,
+	dataPath string,
+	bufferSize uint,
+	overwrite bool,
+) Mocker {
+	return &mocker{
+		dialer:        dialer,
+		mode:          mode,
+		remoteAddress: remoteAddress,
+		dataPath:      dataPath,
+		bufferSize:    bufferSize,
+		overwrite:     overwrite,
+	}
 }
 
 func (m *mocker) HandleRequest(c Connection) {
 	defer func() {
-		err := c.Close()
-		if err != nil {
-			log.Printf("failed to close connection: %v\n", err.Error())
-		}
+		_ = c.Close()
 	}()
 
 	// Make a buffer to hold incoming data.
@@ -69,13 +82,16 @@ func (m *mocker) HandleRequest(c Connection) {
 
 	// SHA1 is enough for this use case
 	hash := CreateHash(buf)
+	path := GetFilePath(m.dataPath, hash)
 
 	var replyFromServer []byte
-	if m.mode == PROXY {
+
+	_, err = os.Stat(path)
+	if m.mode == PROXY && (m.overwrite || errors.Is(err, os.ErrNotExist)) {
 		replyFromServer = m.handleRequestToRemote(buf)
-		WriteFile(m.dataPath, hash, replyFromServer)
-	} else if m.mode == MOCK {
-		replyFromServer = ReadFile(m.dataPath, hash)
+		WriteFile(path, replyFromServer)
+	} else if m.mode == MOCK || !m.overwrite {
+		replyFromServer = ReadFile(path)
 	} else {
 		log.Panicf("Unexpected mode")
 	}
@@ -123,15 +139,19 @@ func CreateHash(b []byte) string {
 	return fmt.Sprintf("%x", h.Sum(nil))
 }
 
-func WriteFile(path, filename string, b []byte) {
-	err := os.WriteFile(filepath.Join(path, filename), b, 0644)
+func GetFilePath(path, filename string) string {
+	return filepath.Join(path, filename)
+}
+
+func WriteFile(path string, b []byte) {
+	err := os.WriteFile(path, b, 0644)
 	if err != nil {
 		log.Panicf("failed to write file: %v", err)
 	}
 }
 
-func ReadFile(path, filename string) []byte {
-	data, err := os.ReadFile(filepath.Join(path, filename))
+func ReadFile(path string) []byte {
+	data, err := os.ReadFile(path)
 	if err != nil {
 		log.Panicf(
 			"failed to read file, this probably means that there is no response recorded for your request, "+

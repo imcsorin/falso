@@ -22,6 +22,8 @@ var (
 	mode = flag.String(
 		"mode", falso.MOCK, "use proxy/mock, 'mock' will read from the file and send it back and "+
 			"'proxy' will try to get a response from the remote address")
+
+	overwrite = flag.Bool("overwrite", false, "use true/false, overwrites existing data in proxy mode")
 )
 
 func main() {
@@ -46,7 +48,7 @@ func main() {
 		}
 	}(conn)
 
-	mocker := falso.NewMocker(falso.NewDialer(), *mode, *remoteAddress, *dataPath, *bufferSize)
+	mocker := falso.NewMocker(falso.NewDialer(), *mode, *remoteAddress, *dataPath, *bufferSize, *overwrite)
 	fmt.Printf("listening on %s in mode %s\n", *address, *mode)
 	if *mode == falso.PROXY {
 		log.Printf("remote address: %s\n", *remoteAddress)

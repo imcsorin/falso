@@ -34,6 +34,7 @@ Binary release available at:
 - `--mode` there are 2 modes, `proxy` (records) and `mock` (serves saved data).
 - `--dataPath` custom path to save data in proxy mode, default is `./falsoData`.
 - `--bufferSize` in case you need larger responses/requests, default is 65535 (64K).
+- `--overwrite` will overwrite existing files in proxy mode, default is false.
 
 ### How to proxy requests.
 

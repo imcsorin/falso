@@ -15,17 +15,17 @@ Download the latest release and make it executable:
 
 #### Linux
 ```
-curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso.linux --output falso && chmod +x falso
+curl -sL https://github.com/imcsorin/falso/releases/latest/download/falso.linux --output falso && chmod +x falso
 ```
 
 #### MacOS
 ```
-curl -sL https://github.com/sorinsi/falso/releases/latest/download/falso.darwin --output falso && chmod +x falso
+curl -sL https://github.com/imcsorin/falso/releases/latest/download/falso.darwin --output falso && chmod +x falso
 ```
 
 #### Windows
 Binary release available at:
-`https://github.com/sorinsi/falso/releases/latest/download/falso.windows`
+`https://github.com/imcsorin/falso/releases/latest/download/falso.windows`
 
 ### Available args
 
